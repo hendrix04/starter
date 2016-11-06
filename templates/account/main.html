@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+
+{% if error %}
+{{ error }}<br><br><br>
+{% endif %}
+
+<form action="/account" method="post">
+Enter your password to update your info:<br>
+<input type="password" name="passwordcheck"><br><br>
+
+Email address:<br>
+<input type="text" name="email" value="{{ email }}"><br><br>
+Update  your password:<br>
+Password:<br>
+<input type="password" name="updatepassword"><br><br>
+Confirm Password:<br>
+<input type="password" name="confirmpassword"><br><br>
+<input type="submit" value="Update"><br>
+</form>
+{% endblock %}

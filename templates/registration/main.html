@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Registration{% endblock %}
+
+{% block content %}
+<form action="./registration" method="post">
+Username:<br>
+<input type="text" name="username"><br>
+Email address:<br>
+<input type="text" name="email"><br>
+Password:<br>
+<input type="password" name="password"><br>
+<input type="submit" value="Register"><br>
+</form>
+<br>
+<a href="./">cancel</a>
+{% endblock %}

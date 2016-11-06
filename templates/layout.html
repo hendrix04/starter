@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+			<link rel="stylesheet" href="static/css/main.css" />
+			<title>{% block title %}{% endblock %} - Forge</title>
+		{% endblock %}
+	</head>
+	<body>
+		{% if permission == 'user' or permission == 'premium' %}
+			<div class="menu">
+				<a href="/">Home</a>
+				<a href="/account">Account</a>
+			</div>
+			<br><br>
+		{% endif %}
+		<div id="content">{% block content %}{% endblock %}</div>
+	</body>
+</html>
