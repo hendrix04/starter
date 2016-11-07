@@ -19,6 +19,7 @@ class Middleware {
 		if ($session->get('permission', 'not logged in') != 'not logged in') {
 			$request = $request->withAttribute('permission', $session->permission);
 			$request = $request->withAttribute('username', $session->username);
+			$request = $request->withAttribute('userid', $session->userid);
 		}
 
 		return $next($request, $response);
@@ -29,6 +30,7 @@ class Middleware {
 		switch ($request->getAttribute('permission')) {
 			case "user":
 			case "premium":
+			case "admin":
 				return $next($request, $response);
 				break;
 			default:
@@ -40,11 +42,24 @@ class Middleware {
 
 		switch ($request->getAttribute('permission')) {
 			case "premium":
+			case "admin":
 				return $next($request, $response);
 				break;
 			default:
 				return $this->view->render($response, 'error/notallowed.html');
 		}
 	}
+
+	public function Admin($request, $response, $next) {
+
+		switch ($request->getAttribute('permission')) {
+			case "admin":
+				return $next($request, $response);
+				break;
+			default:
+				return $this->view->render($response, 'error/notallowed.html');
+		}
+	}
+
 }
 ?>

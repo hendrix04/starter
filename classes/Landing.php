@@ -15,11 +15,16 @@ class Landing {
 
 		$permission = $request->getAttribute('permission');
 
-		if ($permission == 'user' || $permission == 'premium') {
-			return $this->LoggedIn($request, $response, $args);
+		switch ($permission) {
+			case "user":
+			case "premium":
+			case "admin":
+				return $this->LoggedIn($request, $response, $args);
+				break;
+			default:
+				return $this->view->render($response, 'landing/main.html');
+				break;	
 		}
-
-		return $this->view->render($response, 'landing/main.html');
 	}
 
 	private function LoggedIn($request, $response, $args) {

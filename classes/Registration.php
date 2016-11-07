@@ -13,18 +13,17 @@ class Registration {
 
 	public function Get($request, $response, $args) {
 		return $this->view->render($response, 'registration/main.html');#, [
-#			 'name' => $args['name']
-#		]);
-#		$row = print_r($this->db->table('user')->find(1), true);
-#		$response->getBody()->write('<pre>' . $row);
-
-#		return $response;
 	}
 
 	public function Post($request, $response, $args) {
 		$data = $request->getParsedBody();
 
 		$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+		$permissioninfo = $this->db->table('permission')->find('user', 'level');
+
+		# Set the default permission level for this person which is user...
+		$data['permissionid'] = $permissioninfo->id;
 
 		$insertId = $this->db->table('user')->insert($data);
 
