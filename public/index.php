@@ -5,7 +5,6 @@ date_default_timezone_set('America/New_York');
 require '../vendor/autoload.php';
 require '../config/settings.inc';
 require '../config/routes.inc';
-require '../lib/middleware.php';
 
 spl_autoload_register(function ($classname) {
 	if (substr($classname, 0, 4) === "Lib\\") {
@@ -48,7 +47,7 @@ $container['view'] = function ($c) {
 
 $app->add($container->get('csrf'));
 
-$middleware = new Middleware($container['view']);
+$middleware = new Lib\Middleware($container['view']);
 
 # Register all of the routes
 foreach ($routes as $route => $info) {
@@ -56,7 +55,7 @@ foreach ($routes as $route => $info) {
 		$function = '\\' . $info['class'] . ':' . ucfirst($method);
 
 		if ($permission != 'all') {
-			$middleware = array(new Middleware($container['view']), ucfirst($permission));
+			$middleware = array(new Lib\Middleware($container['view']), ucfirst($permission));
 			$app->$method($route, $function)->add($middleware);
 		}
 		else {
@@ -65,7 +64,7 @@ foreach ($routes as $route => $info) {
 	}
 }
 
-$authmiddleware = array(new Middleware($container['view']), "Authenticated");
+$authmiddleware = array(new Lib\Middleware($container['view']), "Authenticated");
 $app->add($authmiddleware);
 
 $app->add(new \Slim\Middleware\Session([
