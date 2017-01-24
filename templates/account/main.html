@@ -11,6 +11,7 @@
 {% endif %}
 
 <form class="form-horizontal" action="/account" method="post">
+{{ include('macros/csfr.html') }}
 <div class="form-group">
 	<label class="control-label col-md-4" for="passwordcheck">Password</label>
 	<div class="col-md-8">
