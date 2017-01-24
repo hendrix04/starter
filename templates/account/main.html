@@ -3,22 +3,41 @@
 {% block title %}Account{% endblock %}
 
 {% block content %}
-
+<div class="col-md-6">
+<h1>Update account information</h1>
+<br><br>
 {% if error %}
-{{ error }}<br><br><br>
+<div class="alert alert-danger">{{ error }}</div>
 {% endif %}
 
-<form action="/account" method="post">
-Enter your password to update your info:<br>
-<input type="password" name="passwordcheck"><br><br>
-
-Email address:<br>
-<input type="text" name="email" value="{{ email }}"><br><br>
-Update  your password:<br>
-Password:<br>
-<input type="password" name="updatepassword"><br><br>
-Confirm Password:<br>
-<input type="password" name="confirmpassword"><br><br>
-<input type="submit" value="Update"><br>
+<form class="form-horizontal" action="/account" method="post">
+<div class="form-group">
+	<label class="control-label col-md-4" for="passwordcheck">Password</label>
+	<div class="col-md-8">
+		<input class="form-control" type="password" name="passwordcheck" id="passwordcheck" placeholder="Password" required autofocus>
+		<p class="help-block">You must enter your current password to change anything</p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-md-4" for="email">Email</label>
+	<div class="col-md-8">
+		<input type="text" name="email" id="email" class="form-control" value="{{ email }}">
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-md-4" for="updatepassword">New password</label>
+	<div class="col-md-8">
+		<input type="password" name="updatepassword" id="updatepassword" class="form-control" placeholder="New password">
+	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-md-4" for="confirmpassword">Confirm new password</label>
+	<div class="col-md-8">
+		<input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="Retype new password">
+	</div>
+</div>
+<br>
+<input type="submit" value="Update" class="btn btn-primary">
 </form>
+</div>
 {% endblock %}

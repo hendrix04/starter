@@ -31,6 +31,7 @@ class Landing {
 
 		$tempvars = [
 			'permission' => $request->getAttribute('permission'),
+			'menu' => 'home',
 		];
 
 		return $this->view->render($response, 'landing/authenticated.html', $tempvars);

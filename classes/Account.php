@@ -19,6 +19,7 @@ class Account {
 			'username' => $row->username,
 			'email' => $row->email,
 			'permission' => $request->getAttribute('permission'),
+			'menu' => 'account',
 		];
 
 		if (isset($args['error'])) {

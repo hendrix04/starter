@@ -5,10 +5,15 @@ date_default_timezone_set('America/New_York');
 require '../vendor/autoload.php';
 require '../config/settings.inc';
 require '../config/routes.inc';
-require '../config/middleware.php';
+require '../lib/middleware.php';
 
 spl_autoload_register(function ($classname) {
-	require ("../classes/" . $classname . ".php");
+	if (substr($classname, 0, 4) === "Lib\\") {
+		require("../lib/" . substr($classname, 4) . ".php");
+	}
+	else {
+		require ("../classes/" . $classname . ".php");
+	}
 });
 
 $app = new \Slim\App(["settings" => $slimconfig]);
@@ -22,6 +27,10 @@ $container['db'] = function ($c) {
 	return $qb;
 };
 
+$container['csrf'] = function ($c) {
+    return new \Slim\Csrf\Guard;
+};
+
 $container['view'] = function ($c) {
 	$settings = $c['settings']['twig'];
 
@@ -32,9 +41,12 @@ $container['view'] = function ($c) {
 	// Instantiate and add Slim specific extension
 	$basePath = rtrim(str_ireplace('index.php', '', $c['request']->getUri()->getBasePath()), '/');
 	$view->addExtension(new Slim\Views\TwigExtension($c['router'], $basePath));
+	$view->addExtension(new Lib\TwigCSRF($c['csrf']));
 
 	return $view;
 };
+
+$app->add($container->get('csrf'));
 
 $middleware = new Middleware($container['view']);
 
@@ -61,6 +73,7 @@ $app->add(new \Slim\Middleware\Session([
 	'autorefresh' => true,
 	'lifetime' => '1 hour'
 ]));
+
 
 $app->run();
 
