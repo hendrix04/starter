@@ -1,0 +1,9 @@
+{% macro input(label, name, value, type) %}
+<div class="form-group">
+	<label class="control-label col-md-4" for="{{ name }}">{{ label }}</label>
+		<div class="col-md-8">
+		<input type="{{ type|default('text') }}" name="{{ name }}" id="{{ name }}" value="{{ value|e }}>
+	</div>
+</div>
+{% endmacro %}
+
